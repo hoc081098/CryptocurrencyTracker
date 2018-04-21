@@ -20,33 +20,6 @@ import kotlinx.android.synthetic.main.ticker_item_layout.view.*
  * Created by Peter Hoc on 11/03/2018.
  */
 
-/*
-class LoadMoreListener(private val loadMore: () -> Unit) : RecyclerView.OnScrollListener() {
-    private var loading = false
-
-    override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-        super.onScrolled(recyclerView, dx, dy)
-        val layoutManager = recyclerView?.layoutManager as? LinearLayoutManager ?: return
-        if (dy > 0) {
-            val itemCount = layoutManager.itemCount
-            val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
-            if (!loading && lastVisibleItemPosition + THRESHOLD >= itemCount) {
-                loadMore()
-                loading = true
-            }
-        }
-    }
-
-    fun loadMoreFinished() {
-        loading = false
-    }
-
-    private companion object {
-        const val THRESHOLD = 3
-    }
-}
-*/
-
 class ModelTickerDiffCallback : DiffUtil.ItemCallback<ModelTicker>() {
     override fun areItemsTheSame(oldItem: ModelTicker?, newItem: ModelTicker?): Boolean {
         return if (oldItem is ModelTicker.Ticker && newItem is ModelTicker.Ticker)
