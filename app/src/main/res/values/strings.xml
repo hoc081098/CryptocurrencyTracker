@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Cryptocurrency Tracker</string>
+    <string name="view_ticker_name">%s | %s</string>
+    <string name="price_usd">$ %s</string>
+    <string name="price_btc">฿ %s</string>
+    <string name="percent_change1h">1 hour</string>
+    <string name="percent_change24h">24 hours</string>
+    <string name="percent_change7d">7 days</string>
+    <string name="search_title">Search</string>
+    <string name="image_symbol_transition">IMAGE_SYMBOL</string>
+    <string name="text_title_transition">TEXT_NAME</string>
+    <string name="text_price_usd_transition">TEXT_PRICE_USD</string>
+    <string name="text_price_btc_transition">TEXT_PRICE_BTC</string>
+    <string name="text_change1h_transition">TEXT_CHANGE_1h</string>
+    <string name="text_change24h_transition">TEXT_CHANGE_24h</string>
+    <string name="text_change7d_transition">TEXT_CHANGE_7d</string>
+    <string name="image_change1h_transition">IMAGE_CHANGE_1h</string>
+    <string name="image_change24h_transition">IMAGE_CHANGE_24h</string>
+    <string name="image_change7d_transition">IMAGE_CHANGE_7h</string>
+    <string name="price_btc_str">Price BTC: %s</string>
+    <string name="price_usd_str">Price USD: %s</string>
+    <string name="_4h_volume_USD">4h volume USD %s</string>
+    <string name="market_cap_usd">Market cap USD %s</string>
+    <string name="symbol_name">%s %s</string>
+    <string name="text_1h">1h: %s%%</string>
+    <string name="text_24h">24h: %s%%</string>
+    <string name="text_7d">7d: %s%%</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_results_found">NO RESULTS FOUND</string>
+
+
+</resources>
