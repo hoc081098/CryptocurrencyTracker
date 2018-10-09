@@ -2,9 +2,8 @@ package com.hoc.cryptocurrencytracker.ui.main
 
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
+import androidx.appcompat.app.AppCompatActivity
 import com.hoc.cryptocurrencytracker.R
 import com.hoc.cryptocurrencytracker.appComponent
 import com.hoc.cryptocurrencytracker.di.DaggerMainActivityComponent
@@ -17,16 +16,15 @@ import io.reactivex.Flowable
 import io.reactivex.processors.PublishProcessor
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : AppCompatActivity() {
     val mainActivityComponent: MainActivityComponent by lazy {
         DaggerMainActivityComponent.builder()
-                .appComponent(appComponent)
-                .build()
+            .appComponent(appComponent)
+            .build()
     }
     private lateinit var listFragment: ListFragment
     private lateinit var searchFragment: SearchFragment
-    private val fragments = mutableListOf<Fragment>()
+    private val fragments = mutableListOf<androidx.fragment.app.Fragment>()
     private var doubleToExit = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,10 +50,10 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun displayFragment(fragment: Fragment) {
+    private fun displayFragment(fragment: androidx.fragment.app.Fragment) {
         println("display fragment: ${fragment::class.java.simpleName}")
         val transaction = supportFragmentManager.beginTransaction()
-                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
 
         fragments.forEach {
             when (it) {

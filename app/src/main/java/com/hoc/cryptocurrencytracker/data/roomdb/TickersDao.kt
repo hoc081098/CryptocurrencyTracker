@@ -1,6 +1,12 @@
 package com.hoc.cryptocurrencytracker.data.roomdb
 
-import android.arch.persistence.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Update
 import com.hoc.cryptocurrencytracker.data.ModelTicker
 import io.reactivex.Flowable
 import org.intellij.lang.annotations.Language

@@ -16,9 +16,9 @@ import javax.inject.Inject
  */
 
 class ListPresenter @Inject constructor(
-        private val repository: CoinMarkerDataSource,
-        private val schedulerProvider: SchedulerProvider,
-        private val connectionUtil: ConnectionUtil
+    private val repository: CoinMarkerDataSource,
+    private val schedulerProvider: SchedulerProvider,
+    private val connectionUtil: ConnectionUtil
 ) : ListContract.Presenter {
     override var view: ListContract.View? = null
     private val compositeDisposable = CompositeDisposable()
@@ -45,46 +45,45 @@ class ListPresenter @Inject constructor(
     private fun getData() {
         println("Get data")
         compositeDisposable += repository.getTickers(start = startIndex, limit = LIMIT)
-                .doOnSubscribe {
-                    when (startIndex) {
-                        0 -> view?.setSwipeRefreshing(true)
-                        else -> {
-                            models += ModelTicker.Loading
-                            view?.onLoadingItemInserted()
-                        }
+            .doOnSubscribe {
+                when (startIndex) {
+                    0 -> view?.setSwipeRefreshing(true)
+                    else -> {
+                        models += ModelTicker.Loading
+                        view?.onLoadingItemInserted()
                     }
                 }
-                .map { it.toTypedArray() }
-                .flatMap {
-                    when {
-                        connectionUtil.isConnected() -> when (startIndex) {
-                            0 -> repository.deleteAllAndInsert(it)
-                            else -> repository.insert(it)
+            }
+            .map { it.toTypedArray() }
+            .flatMap {
+                when {
+                    connectionUtil.isConnected() -> when (startIndex) {
+                        0 -> repository.deleteAllAndInsert(it)
+                        else -> repository.insert(it)
+                    }
+                    else -> Completable.complete()
+                }.andThen(Flowable.just(it)).subscribeOn(schedulerProvider.ioSchedulers())
+            }
+            .observeOn(schedulerProvider.mainSchedulers())
+            .subscribeBy(
+                onError = {
+                    view?.showMessage(it.message ?: "Unknown error")
+                    view?.setSwipeRefreshing(false)
+                },
+                onNext = {
+                    when (startIndex) {
+                        0 -> models.clear()
+                        else -> if (models.isNotEmpty() && models.last() === ModelTicker.Loading) {
+                            models.removeAt(models.lastIndex)
+                            view?.onLoadingItemRemoved()
                         }
-                        else -> Completable.complete()
-                    }.andThen(Flowable.just(it)).subscribeOn(schedulerProvider.ioSchedulers())
+                    }
+
+                    view?.setSwipeRefreshing(false)
+                    view?.updateListTickers(models.apply { addAll(it) }, startIndex == 0)
+                    startIndex += it.size
                 }
-                .observeOn(schedulerProvider.mainSchedulers())
-                .subscribeBy(
-                        onError = {
-                            view?.showMessage(it.message ?: "Unknown error")
-                            view?.setSwipeRefreshing(false)
-                        },
-                        onNext = {
-                            when (startIndex) {
-                                0 -> models.clear()
-                                else -> if (models.isNotEmpty() && models.last() === ModelTicker.Loading) {
-                                    models.removeAt(models.lastIndex)
-                                    view?.onLoadingItemRemoved()
-                                }
-                            }
-
-                            view?.setSwipeRefreshing(false)
-                            view?.updateListTickers(models.apply { addAll(it) }, startIndex == 0)
-                            startIndex += it.size
-                        }
-                )
-
+            )
     }
 
     override fun loadMoreData() {

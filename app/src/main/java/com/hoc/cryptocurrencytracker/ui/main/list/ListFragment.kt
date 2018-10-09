@@ -2,14 +2,13 @@ package com.hoc.cryptocurrencytracker.ui.main.list
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.app.ActivityOptionsCompat
+import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.hoc.cryptocurrencytracker.R
 import com.hoc.cryptocurrencytracker.data.ModelTicker
 import com.hoc.cryptocurrencytracker.ui.detail.DetailActivity
@@ -17,7 +16,7 @@ import com.hoc.cryptocurrencytracker.ui.main.MainActivity
 import kotlinx.android.synthetic.main.frament_list.*
 import kotlinx.android.synthetic.main.ticker_item_layout.view.*
 import javax.inject.Inject
-import android.support.v4.util.Pair as AndroidPair
+import androidx.core.util.Pair as AndroidPair
 
 /**
  * A placeholder fragment containing a simple view.
@@ -43,11 +42,11 @@ class ListFragment : Fragment(), ListContract.View {
 
     override fun showMessage(charSequence: CharSequence) {
         Snackbar.make(view!!, charSequence, Snackbar.LENGTH_SHORT)
-                .setAction("REFRESH") {
-                    presenter.refreshData()
-                }
-                .setDuration(3_000)
-                .show()
+            .setAction("REFRESH") {
+                presenter.refreshData()
+            }
+            .setDuration(3_000)
+            .show()
     }
 
     override fun navigateToDetailActivity(viewTicker: ModelTicker.Ticker?, position: Int) {
@@ -56,17 +55,42 @@ class ListFragment : Fragment(), ListContract.View {
         val intent = Intent(context, DetailActivity::class.java).apply {
             putExtra(DetailActivity.ITEM, viewTicker)
         }
-        val itemView = recycler.findViewHolderForAdapterPosition(position).itemView
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity!!,
-                AndroidPair(itemView.image_symbol as View, getString(R.string.image_symbol_transition)),
-                AndroidPair(itemView.text_price_usd as View, getString(R.string.text_price_usd_transition)),
-                AndroidPair(itemView.text_price_btc as View, getString(R.string.text_price_btc_transition)),
-                AndroidPair(itemView.text_percent_change_1h as View, getString(R.string.text_change1h_transition)),
-                AndroidPair(itemView.text_percent_change_24h as View, getString(R.string.text_change24h_transition)),
-                AndroidPair(itemView.text_percent_change_7d as View, getString(R.string.text_change7d_transition)),
-                AndroidPair(itemView.image_percent_change_1h as View, getString(R.string.image_change1h_transition)),
-                AndroidPair(itemView.image_percent_change_24h as View, getString(R.string.image_change24h_transition)),
-                AndroidPair(itemView.image_percent_change_7d as View, getString(R.string.image_change7d_transition))
+        val itemView = recycler.findViewHolderForAdapterPosition(position)?.itemView ?: return
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            activity!!,
+            AndroidPair(itemView.image_symbol as View, getString(R.string.image_symbol_transition)),
+            AndroidPair(
+                itemView.text_price_usd as View,
+                getString(R.string.text_price_usd_transition)
+            ),
+            AndroidPair(
+                itemView.text_price_btc as View,
+                getString(R.string.text_price_btc_transition)
+            ),
+            AndroidPair(
+                itemView.text_percent_change_1h as View,
+                getString(R.string.text_change1h_transition)
+            ),
+            AndroidPair(
+                itemView.text_percent_change_24h as View,
+                getString(R.string.text_change24h_transition)
+            ),
+            AndroidPair(
+                itemView.text_percent_change_7d as View,
+                getString(R.string.text_change7d_transition)
+            ),
+            AndroidPair(
+                itemView.image_percent_change_1h as View,
+                getString(R.string.image_change1h_transition)
+            ),
+            AndroidPair(
+                itemView.image_percent_change_24h as View,
+                getString(R.string.image_change24h_transition)
+            ),
+            AndroidPair(
+                itemView.image_percent_change_7d as View,
+                getString(R.string.image_change7d_transition)
+            )
         ).toBundle()
         startActivity(intent, options)
     }
@@ -76,24 +100,30 @@ class ListFragment : Fragment(), ListContract.View {
         (activity as MainActivity).mainActivityComponent.inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.frament_list, container, false)
-    }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = inflater.inflate(R.layout.frament_list, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recycler.run {
             setHasFixedSize(true)
-            val linearLayoutManager = LinearLayoutManager(context)
+            val linearLayoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
             layoutManager = linearLayoutManager
             adapter = TickersAdapter(presenter::onClickItemAt).also {
                 tickersAdapter = it
             }
-            addOnScrollListener(EndlessRecyclerViewScrollListener(this, presenter::loadMoreData).also {
-                scrollListener = it
-            })
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down)
+            addOnScrollListener(
+                EndlessRecyclerViewScrollListener(
+                    this.layoutManager!!,
+                    presenter::loadMoreData
+                ).also {
+                    scrollListener = it
+                })
+            layoutAnimation =
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down)
         }
 
         swipe_layout.run {

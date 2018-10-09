@@ -1,6 +1,6 @@
 package com.hoc.cryptocurrencytracker.base
 
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 
 /**
  * Created by Peter Hoc on 13/03/2018.

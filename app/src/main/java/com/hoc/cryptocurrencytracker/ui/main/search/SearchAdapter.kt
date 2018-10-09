@@ -1,11 +1,10 @@
 package com.hoc.cryptocurrencytracker.ui.main.search
 
-import android.support.v7.recyclerview.extensions.ListAdapter
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.ListAdapter
 import com.hoc.cryptocurrencytracker.R
 import com.hoc.cryptocurrencytracker.data.ModelTicker
 import com.hoc.cryptocurrencytracker.ui.main.list.ModelTickerDiffCallback
@@ -25,7 +24,10 @@ class SearchAdapter : ListAdapter<ModelTicker, SearchAdapter.SearchItemViewHolde
         holder.bind(getItem(position) as? ModelTicker.Ticker)
     }
 
-    class SearchItemViewHolder(itemView: View, private val clickFlowable: PublishProcessor<ModelTicker.Ticker>) : RecyclerView.ViewHolder(itemView) {
+    class SearchItemViewHolder(
+        itemView: View,
+        private val clickFlowable: PublishProcessor<ModelTicker.Ticker>
+    ) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         val searchItemName: TextView = itemView.findViewById(R.id.search_item_name)
         fun bind(item: ModelTicker.Ticker?) {
             if (item === null) return

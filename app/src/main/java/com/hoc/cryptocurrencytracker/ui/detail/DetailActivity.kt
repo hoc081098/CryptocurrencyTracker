@@ -1,9 +1,9 @@
 package com.hoc.cryptocurrencytracker.ui.detail
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.hoc.cryptocurrencytracker.R
 import com.hoc.cryptocurrencytracker.data.ModelTicker
 import com.hoc.cryptocurrencytracker.util.toast
@@ -34,17 +34,20 @@ class DetailActivity : AppCompatActivity() {
         collapsinglayout.run {
             setExpandedTitleTextAppearance(R.style.CollapsingToolbar_Expanded)
             setCollapsedTitleTextAppearance(R.style.CollapsingToolbar_Collapsed)
-            title = getString(R.string.symbol_name,
-                    ticker?.symbol ?: "?", ticker?.name ?: "?").toUpperCase()
+            title = getString(
+                R.string.symbol_name,
+                ticker?.symbol ?: "?", ticker?.name ?: "?"
+            ).toUpperCase()
         }
 
-        Picasso.get().load("https://res.cloudinary.com/dxi90ksom/image/upload/${ticker?.symbol}.png")
-                .fit()
-                .centerCrop()
-                .noFade()
-                .error(R.drawable.ic_image_black_24dp)
-                .placeholder(R.drawable.ic_image_black_24dp)
-                .into(imageView)
+        Picasso.get()
+            .load("https://res.cloudinary.com/dxi90ksom/image/upload/${ticker?.symbol}.png")
+            .fit()
+            .centerCrop()
+            .noFade()
+            .error(R.drawable.ic_image_black_24dp)
+            .placeholder(R.drawable.ic_image_black_24dp)
+            .into(imageView)
 
         text_price_btc.text = getString(R.string.price_btc_str, ticker?.priceBtc ?: "?")
         text_price_usd.text = getString(R.string.price_usd_str, ticker?.priceUsd ?: "?")
@@ -82,7 +85,6 @@ class DetailActivity : AppCompatActivity() {
             image_7d.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp)
         }
     }
-
 
     companion object {
         const val ITEM = "Item"

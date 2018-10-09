@@ -17,5 +17,4 @@ abstract class CoinMarkerModule {
 
     @Binds
     abstract fun provideSchedulerProvider(schedulerProviderImpl: SchedulerProviderImpl): SchedulerProvider
-
 }

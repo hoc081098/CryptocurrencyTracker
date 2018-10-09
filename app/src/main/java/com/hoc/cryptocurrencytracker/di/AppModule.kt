@@ -5,7 +5,6 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-
 /**
  * Created by Peter Hoc on 15/03/2018.
  */

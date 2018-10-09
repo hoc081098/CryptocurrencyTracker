@@ -1,7 +1,7 @@
 package com.hoc.cryptocurrencytracker.di
 
 import android.app.Application
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import com.hoc.cryptocurrencytracker.data.roomdb.TickerRoomDb
 import com.hoc.cryptocurrencytracker.data.roomdb.TickersDao
 import dagger.Module
@@ -18,9 +18,9 @@ class RoomModule {
     @Singleton
     fun provideTickerRoomDb(application: Application): TickerRoomDb {
         return Room.databaseBuilder(
-                application,
-                TickerRoomDb::class.java,
-                TickerRoomDb.DB_NAME
+            application,
+            TickerRoomDb::class.java,
+            TickerRoomDb.DB_NAME
         ).build()
     }
 

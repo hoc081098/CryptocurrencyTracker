@@ -17,7 +17,6 @@ interface SchedulerProvider {
 class SchedulerProviderImpl @Inject constructor() : SchedulerProvider {
     override fun mainSchedulers(): Scheduler {
         return AndroidSchedulers.mainThread()
-
     }
 
     override fun ioSchedulers(): Scheduler {

@@ -30,22 +30,22 @@ class NetworkModule {
     fun provideOkHttpClient(cache: Cache): OkHttpClient {
         val timeOut = 10L
         return OkHttpClient.Builder()
-                .cache(cache)
-                .readTimeout(timeOut, TimeUnit.SECONDS)
-                .writeTimeout(timeOut, TimeUnit.SECONDS)
-                .connectTimeout(timeOut, TimeUnit.SECONDS)
-                .build()
+            .cache(cache)
+            .readTimeout(timeOut, TimeUnit.SECONDS)
+            .writeTimeout(timeOut, TimeUnit.SECONDS)
+            .connectTimeout(timeOut, TimeUnit.SECONDS)
+            .build()
     }
 
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-                .addConverterFactory(MoshiConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(CoinMarketCapApi.BASE_URL)
-                .client(okHttpClient)
-                .build()
+            .addConverterFactory(MoshiConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .baseUrl(CoinMarketCapApi.BASE_URL)
+            .client(okHttpClient)
+            .build()
     }
 
     @Provides

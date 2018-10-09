@@ -1,16 +1,14 @@
 package com.hoc.cryptocurrencytracker.ui.main.list
 
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
-
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 class EndlessRecyclerViewScrollListener(
-        recyclerView: RecyclerView,
-        private val onLoadMore: () -> Unit
-) : RecyclerView.OnScrollListener() {
-    private val layoutManager: RecyclerView.LayoutManager = recyclerView.layoutManager
+    private val layoutManager: RecyclerView.LayoutManager,
+    private val onLoadMore: () -> Unit
+) : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
     private val visibleThreshold = when (layoutManager) {
         is LinearLayoutManager -> VISIBLE_THRESHOLD
         is GridLayoutManager -> VISIBLE_THRESHOLD * layoutManager.spanCount
@@ -19,7 +17,7 @@ class EndlessRecyclerViewScrollListener(
     }
     private var loading = true
 
-    override fun onScrolled(view: RecyclerView?, dx: Int, dy: Int) {
+    override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
         if (dy <= 0) return
 
         val totalItemCount = layoutManager.itemCount
